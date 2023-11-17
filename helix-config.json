@@ -1,0 +1,1143 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Config",
+  "type": "object",
+  "properties": {
+    "auto-completion": {
+      "description": "Automatic auto-completion, automatically pop up without user trigger. Defaults to true.",
+      "default": true,
+      "type": "boolean"
+    },
+    "auto-format": {
+      "description": "Automatic formatting on save. Defaults to true.",
+      "default": true,
+      "type": "boolean"
+    },
+    "auto-info": {
+      "description": "Whether to display infoboxes. Defaults to true.",
+      "default": true,
+      "type": "boolean"
+    },
+    "auto-pairs": {
+      "description": "Automatic insertion of pairs to parentheses, brackets, etc. Optionally, this can be a list of 2-tuples to specify a global list of characters to pair. Defaults to true.",
+      "default": true,
+      "allOf": [
+        {
+          "$ref": "#/definitions/AutoPairConfig"
+        }
+      ]
+    },
+    "auto-save": {
+      "description": "Automatic save on focus lost. Defaults to false.",
+      "default": false,
+      "type": "boolean"
+    },
+    "bufferline": {
+      "description": "Persistently display open buffers along the top",
+      "default": "never",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BufferLine"
+        }
+      ]
+    },
+    "color-modes": {
+      "description": "Whether to color modes with different colors. Defaults to `false`.",
+      "default": false,
+      "type": "boolean"
+    },
+    "completion-replace": {
+      "description": "Whether to instruct the LSP to replace the entire word when applying a completion or to only insert new text",
+      "default": false,
+      "type": "boolean"
+    },
+    "completion-trigger-len": {
+      "default": 2,
+      "type": "integer",
+      "format": "uint8",
+      "minimum": 0.0
+    },
+    "cursor-shape": {
+      "description": "Shape for cursor in each mode",
+      "default": {
+        "insert": "block",
+        "normal": "block",
+        "select": "block"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/CursorShapeConfig"
+        }
+      ]
+    },
+    "cursorcolumn": {
+      "description": "Highlight the columns cursors are currently on. Defaults to false.",
+      "default": false,
+      "type": "boolean"
+    },
+    "cursorline": {
+      "description": "Highlight the lines cursors are currently on. Defaults to false.",
+      "default": false,
+      "type": "boolean"
+    },
+    "default-line-ending": {
+      "description": "Which line ending to choose for new documents. Defaults to `native`. i.e. `crlf` on Windows, otherwise `lf`.",
+      "default": "native",
+      "allOf": [
+        {
+          "$ref": "#/definitions/LineEndingConfig"
+        }
+      ]
+    },
+    "file-picker": {
+      "default": {
+        "deduplicate-links": true,
+        "follow-symlinks": true,
+        "git-exclude": true,
+        "git-global": true,
+        "git-ignore": true,
+        "hidden": true,
+        "ignore": true,
+        "max-depth": null,
+        "parents": true
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/FilePickerConfig"
+        }
+      ]
+    },
+    "gutters": {
+      "default": {
+        "layout": [
+          "diagnostics",
+          "spacer",
+          "line-numbers",
+          "spacer",
+          "diff"
+        ],
+        "line-numbers": {
+          "min-width": 3
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/GutterConfig"
+        }
+      ]
+    },
+    "idle-timeout": {
+      "description": "Time in milliseconds since last keypress before idle timers trigger. Used for autocompletion, set to 0 for instant. Defaults to 250ms.",
+      "default": 250,
+      "allOf": [
+        {
+          "$ref": "#/definitions/Duration"
+        }
+      ]
+    },
+    "indent-guides": {
+      "description": "Vertical indent width guides.",
+      "default": {
+        "character": "│",
+        "render": false,
+        "skip-levels": 0
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/IndentGuidesConfig"
+        }
+      ]
+    },
+    "insert-final-newline": {
+      "description": "Whether to automatically insert a trailing line-ending on write if missing. Defaults to `true`.",
+      "default": true,
+      "type": "boolean"
+    },
+    "line-number": {
+      "description": "Line number mode.",
+      "default": "absolute",
+      "allOf": [
+        {
+          "$ref": "#/definitions/LineNumber"
+        }
+      ]
+    },
+    "lsp": {
+      "default": {
+        "auto-signature-help": true,
+        "display-inlay-hints": false,
+        "display-messages": false,
+        "display-signature-help-docs": true,
+        "enable": true,
+        "goto-reference-include-declaration": true,
+        "snippets": true
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/LspConfig"
+        }
+      ]
+    },
+    "middle-click-paste": {
+      "description": "Middle click paste support. Defaults to true.",
+      "default": true,
+      "type": "boolean"
+    },
+    "mouse": {
+      "description": "Mouse support. Defaults to true.",
+      "default": true,
+      "type": "boolean"
+    },
+    "preview-completion-insert": {
+      "description": "Whether to insert the completion suggestion on hover. Defaults to true.",
+      "default": true,
+      "type": "boolean"
+    },
+    "rulers": {
+      "description": "Column numbers at which to draw the rulers. Defaults to `[]`, meaning no rulers.",
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "uint16",
+        "minimum": 0.0
+      }
+    },
+    "scroll-lines": {
+      "description": "Number of lines to scroll at once. Defaults to 3",
+      "default": 3,
+      "type": "integer",
+      "format": "int"
+    },
+    "scrolloff": {
+      "description": "Padding to keep between the edge of the screen and the cursor when scrolling. Defaults to 5.",
+      "default": 5,
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0.0
+    },
+    "search": {
+      "description": "Search configuration.",
+      "default": {
+        "smart-case": true,
+        "wrap-around": true
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SearchConfig"
+        }
+      ]
+    },
+    "shell": {
+      "description": "Shell to use for shell commands. Defaults to [\"cmd\", \"/C\"] on Windows and [\"sh\", \"-c\"] otherwise.",
+      "default": [
+        "sh",
+        "-c"
+      ],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "smart-tab": {
+      "description": "Enables smart tab",
+      "default": {
+        "enable": true,
+        "supersede-menu": false
+      },
+      "anyOf": [
+        {
+          "$ref": "#/definitions/SmartTabConfig"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "soft-wrap": {
+      "default": {
+        "enable": false,
+        "max-indent-retain": null,
+        "max-wrap": null,
+        "wrap-at-text-width": null,
+        "wrap-indicator": null
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SoftWrap"
+        }
+      ]
+    },
+    "statusline": {
+      "description": "Configuration of the statusline elements",
+      "default": {
+        "center": [],
+        "left": [
+          "mode",
+          "spinner",
+          "file-name",
+          "read-only-indicator",
+          "file-modification-indicator"
+        ],
+        "mode": {
+          "insert": "INS",
+          "normal": "NOR",
+          "select": "SEL"
+        },
+        "right": [
+          "diagnostics",
+          "selections",
+          "register",
+          "position",
+          "file-encoding"
+        ],
+        "separator": "│"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/StatusLineConfig"
+        }
+      ]
+    },
+    "terminal": {
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/definitions/TerminalConfig"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "text-width": {
+      "description": "Set a global text_width",
+      "default": 80,
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0.0
+    },
+    "true-color": {
+      "description": "Set to `true` to override automatic detection of terminal truecolor support in the event of a false negative. Defaults to `false`.",
+      "default": false,
+      "type": "boolean"
+    },
+    "undercurl": {
+      "description": "Set to `true` to override automatic detection of terminal undercurl support in the event of a false negative. Defaults to `false`.",
+      "default": false,
+      "type": "boolean"
+    },
+    "whitespace": {
+      "default": {
+        "characters": {
+          "nbsp": "⍽",
+          "newline": "⏎",
+          "space": "·",
+          "tab": "→",
+          "tabpad": " "
+        },
+        "render": "none"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/WhitespaceConfig"
+        }
+      ]
+    },
+    "workspace-lsp-roots": {
+      "description": "Workspace specific lsp ceiling dirs",
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "AutoPairConfig": {
+      "description": "Configuration for auto pairs",
+      "anyOf": [
+        {
+          "description": "Enables or disables auto pairing. False means disabled. True means to use the default pairs.",
+          "type": "boolean"
+        },
+        {
+          "description": "The mappings of pairs.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "maxLength": 1,
+            "minLength": 1
+          }
+        }
+      ]
+    },
+    "BufferLine": {
+      "description": "bufferline render modes",
+      "oneOf": [
+        {
+          "description": "Don't render bufferline",
+          "type": "string",
+          "enum": [
+            "never"
+          ]
+        },
+        {
+          "description": "Always render",
+          "type": "string",
+          "enum": [
+            "always"
+          ]
+        },
+        {
+          "description": "Only if multiple buffers are open",
+          "type": "string",
+          "enum": [
+            "multiple"
+          ]
+        }
+      ]
+    },
+    "CursorKind": {
+      "description": "UNSTABLE",
+      "oneOf": [
+        {
+          "description": "█",
+          "type": "string",
+          "enum": [
+            "block"
+          ]
+        },
+        {
+          "description": "|",
+          "type": "string",
+          "enum": [
+            "bar"
+          ]
+        },
+        {
+          "description": "_",
+          "type": "string",
+          "enum": [
+            "underline"
+          ]
+        },
+        {
+          "description": "Hidden cursor, can set cursor position with this to let IME have correct cursor position.",
+          "type": "string",
+          "enum": [
+            "hidden"
+          ]
+        }
+      ]
+    },
+    "CursorShapeConfig": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CursorKind"
+      },
+      "maxItems": 3,
+      "minItems": 3
+    },
+    "Duration": {
+      "type": "object",
+      "required": [
+        "nanos",
+        "secs"
+      ],
+      "properties": {
+        "nanos": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "secs": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        }
+      }
+    },
+    "FilePickerConfig": {
+      "type": "object",
+      "properties": {
+        "deduplicate-links": {
+          "description": "Hides symlinks that point into the current directory. Defaults to true.",
+          "default": true,
+          "type": "boolean"
+        },
+        "follow-symlinks": {
+          "description": "Enables following symlinks. Whether to follow symbolic links in file picker and file or directory completions. Defaults to true.",
+          "default": true,
+          "type": "boolean"
+        },
+        "git-exclude": {
+          "description": "Enables reading `.git/info/exclude` files. Whether to hide files listed in .git/info/exclude in file picker and global search results. Defaults to true.",
+          "default": true,
+          "type": "boolean"
+        },
+        "git-global": {
+          "description": "Enables reading global .gitignore, whose path is specified in git's config: `core.excludefile` option. Whether to hide files listed in global .gitignore in file picker and global search results. Defaults to true.",
+          "default": true,
+          "type": "boolean"
+        },
+        "git-ignore": {
+          "description": "Enables reading `.gitignore` files. Whether to hide files listed in .gitignore in file picker and global search results. Defaults to true.",
+          "default": true,
+          "type": "boolean"
+        },
+        "hidden": {
+          "description": "IgnoreOptions Enables ignoring hidden files. Whether to hide hidden files in file picker and global search results. Defaults to true.",
+          "default": true,
+          "type": "boolean"
+        },
+        "ignore": {
+          "description": "Enables reading `.ignore` files. Whether to hide files listed in .ignore in file picker and global search results. Defaults to true.",
+          "default": true,
+          "type": "boolean"
+        },
+        "max-depth": {
+          "description": "WalkBuilder options Maximum Depth to recurse directories in file picker and global search. Defaults to `None`.",
+          "default": null,
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "minimum": 0.0
+        },
+        "parents": {
+          "description": "Enables reading ignore files from parent directories. Defaults to true.",
+          "default": true,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "GutterConfig": {
+      "type": "object",
+      "properties": {
+        "layout": {
+          "description": "Gutter Layout",
+          "default": [
+            "diagnostics",
+            "spacer",
+            "line-numbers",
+            "spacer",
+            "diff"
+          ],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GutterType"
+          }
+        },
+        "line-numbers": {
+          "description": "Options specific to the \"line-numbers\" gutter",
+          "default": {
+            "min-width": 3
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/GutterLineNumbersConfig"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "GutterLineNumbersConfig": {
+      "type": "object",
+      "properties": {
+        "min-width": {
+          "description": "Minimum number of characters to use for line number gutter. Defaults to 3.",
+          "default": 3,
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false
+    },
+    "GutterType": {
+      "oneOf": [
+        {
+          "description": "Show diagnostics and other features like breakpoints",
+          "type": "string",
+          "enum": [
+            "diagnostics"
+          ]
+        },
+        {
+          "description": "Show line numbers",
+          "type": "string",
+          "enum": [
+            "line-numbers"
+          ]
+        },
+        {
+          "description": "Show one blank space",
+          "type": "string",
+          "enum": [
+            "spacer"
+          ]
+        },
+        {
+          "description": "Highlight local changes",
+          "type": "string",
+          "enum": [
+            "diff"
+          ]
+        }
+      ]
+    },
+    "IndentGuidesConfig": {
+      "type": "object",
+      "properties": {
+        "character": {
+          "default": "│",
+          "type": "string",
+          "maxLength": 1,
+          "minLength": 1
+        },
+        "render": {
+          "default": false,
+          "type": "boolean"
+        },
+        "skip-levels": {
+          "default": 0,
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        }
+      }
+    },
+    "LineEndingConfig": {
+      "description": "Line ending configuration.",
+      "oneOf": [
+        {
+          "description": "The platform's native line ending.\n\n`crlf` on Windows, otherwise `lf`.",
+          "type": "string",
+          "enum": [
+            "native"
+          ]
+        },
+        {
+          "description": "Line feed.",
+          "type": "string",
+          "enum": [
+            "lf"
+          ]
+        },
+        {
+          "description": "Carriage return followed by line feed.",
+          "type": "string",
+          "enum": [
+            "crlf"
+          ]
+        }
+      ]
+    },
+    "LineNumber": {
+      "oneOf": [
+        {
+          "description": "Show absolute line number",
+          "type": "string",
+          "enum": [
+            "absolute"
+          ]
+        },
+        {
+          "description": "If focused and in normal/select mode, show relative line number to the primary cursor. If unfocused or in insert mode, show absolute line number.",
+          "type": "string",
+          "enum": [
+            "relative"
+          ]
+        }
+      ]
+    },
+    "LspConfig": {
+      "type": "object",
+      "properties": {
+        "auto-signature-help": {
+          "description": "Enable automatic pop up of signature help (parameter hints)",
+          "default": true,
+          "type": "boolean"
+        },
+        "display-inlay-hints": {
+          "description": "Display inlay hints",
+          "default": false,
+          "type": "boolean"
+        },
+        "display-messages": {
+          "description": "Display LSP progress messages below statusline",
+          "default": false,
+          "type": "boolean"
+        },
+        "display-signature-help-docs": {
+          "description": "Display docs under signature help popup",
+          "default": true,
+          "type": "boolean"
+        },
+        "enable": {
+          "description": "Enables LSP",
+          "default": true,
+          "type": "boolean"
+        },
+        "goto-reference-include-declaration": {
+          "description": "Whether to include declaration in the goto reference query",
+          "default": true,
+          "type": "boolean"
+        },
+        "snippets": {
+          "description": "Whether to enable snippet support",
+          "default": true,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ModeConfig": {
+      "type": "object",
+      "properties": {
+        "insert": {
+          "default": "INS",
+          "type": "string"
+        },
+        "normal": {
+          "default": "NOR",
+          "type": "string"
+        },
+        "select": {
+          "default": "SEL",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "SearchConfig": {
+      "type": "object",
+      "properties": {
+        "smart-case": {
+          "description": "Smart case: Case insensitive searching unless pattern contains upper case characters. Defaults to true.",
+          "default": true,
+          "type": "boolean"
+        },
+        "wrap-around": {
+          "description": "Whether the search should wrap after depleting the matches. Default to true.",
+          "default": true,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "SmartTabConfig": {
+      "type": "object",
+      "properties": {
+        "enable": {
+          "default": true,
+          "type": "boolean"
+        },
+        "supersede-menu": {
+          "default": false,
+          "type": "boolean"
+        }
+      }
+    },
+    "SoftWrap": {
+      "type": "object",
+      "properties": {
+        "enable": {
+          "description": "Soft wrap lines that exceed viewport width. Default to off",
+          "default": null,
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "max-indent-retain": {
+          "description": "Maximum number of indentation that can be carried over from the previous line when softwrapping. If a line is indented further then this limit it is rendered at the start of the viewport instead.\n\nThis is automatically hard-limited to a quarter of the viewport to ensure correct display on small views.\n\nDefault to 40",
+          "default": null,
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "max-wrap": {
+          "description": "Maximum space left free at the end of the line. This space is used to wrap text at word boundaries. If that is not possible within this limit the word is simply split at the end of the line.\n\nThis is automatically hard-limited to a quarter of the viewport to ensure correct display on small views.\n\nDefault to 20",
+          "default": null,
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "wrap-at-text-width": {
+          "description": "Softwrap at `text_width` instead of viewport width if it is shorter",
+          "default": null,
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "wrap-indicator": {
+          "description": "Indicator placed at the beginning of softwrapped lines\n\nDefaults to ↪",
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "StatusLineConfig": {
+      "type": "object",
+      "properties": {
+        "center": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StatusLineElement"
+          }
+        },
+        "left": {
+          "default": [
+            "mode",
+            "spinner",
+            "file-name",
+            "read-only-indicator",
+            "file-modification-indicator"
+          ],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StatusLineElement"
+          }
+        },
+        "mode": {
+          "default": {
+            "insert": "INS",
+            "normal": "NOR",
+            "select": "SEL"
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/ModeConfig"
+            }
+          ]
+        },
+        "right": {
+          "default": [
+            "diagnostics",
+            "selections",
+            "register",
+            "position",
+            "file-encoding"
+          ],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StatusLineElement"
+          }
+        },
+        "separator": {
+          "default": "│",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "StatusLineElement": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "file-modification-indicator"
+          ]
+        },
+        {
+          "description": "The editor mode (Normal, Insert, Visual/Selection)",
+          "type": "string",
+          "enum": [
+            "mode"
+          ]
+        },
+        {
+          "description": "The LSP activity spinner",
+          "type": "string",
+          "enum": [
+            "spinner"
+          ]
+        },
+        {
+          "description": "The file basename (the leaf of the open file's path)",
+          "type": "string",
+          "enum": [
+            "file-base-name"
+          ]
+        },
+        {
+          "description": "The relative file path",
+          "type": "string",
+          "enum": [
+            "file-name"
+          ]
+        },
+        {
+          "description": "An indicator that shows `\"[readonly]\"` when a file cannot be written",
+          "type": "string",
+          "enum": [
+            "read-only-indicator"
+          ]
+        },
+        {
+          "description": "The file encoding",
+          "type": "string",
+          "enum": [
+            "file-encoding"
+          ]
+        },
+        {
+          "description": "The file line endings (CRLF or LF)",
+          "type": "string",
+          "enum": [
+            "file-line-ending"
+          ]
+        },
+        {
+          "description": "The file type (language ID or \"text\")",
+          "type": "string",
+          "enum": [
+            "file-type"
+          ]
+        },
+        {
+          "description": "A summary of the number of errors and warnings",
+          "type": "string",
+          "enum": [
+            "diagnostics"
+          ]
+        },
+        {
+          "description": "A summary of the number of errors and warnings on file and workspace",
+          "type": "string",
+          "enum": [
+            "workspace-diagnostics"
+          ]
+        },
+        {
+          "description": "The number of selections (cursors)",
+          "type": "string",
+          "enum": [
+            "selections"
+          ]
+        },
+        {
+          "description": "The number of characters currently in primary selection",
+          "type": "string",
+          "enum": [
+            "primary-selection-length"
+          ]
+        },
+        {
+          "description": "The cursor position",
+          "type": "string",
+          "enum": [
+            "position"
+          ]
+        },
+        {
+          "description": "The separator string",
+          "type": "string",
+          "enum": [
+            "separator"
+          ]
+        },
+        {
+          "description": "The cursor position as a percent of the total file",
+          "type": "string",
+          "enum": [
+            "position-percentage"
+          ]
+        },
+        {
+          "description": "The total line numbers of the current file",
+          "type": "string",
+          "enum": [
+            "total-line-numbers"
+          ]
+        },
+        {
+          "description": "A single space",
+          "type": "string",
+          "enum": [
+            "spacer"
+          ]
+        },
+        {
+          "description": "Current version control information",
+          "type": "string",
+          "enum": [
+            "version-control"
+          ]
+        },
+        {
+          "description": "Indicator for selected register",
+          "type": "string",
+          "enum": [
+            "register"
+          ]
+        }
+      ]
+    },
+    "TerminalConfig": {
+      "type": "object",
+      "properties": {
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "command": {
+          "default": "",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "WhitespaceCharacters": {
+      "type": "object",
+      "properties": {
+        "nbsp": {
+          "default": "⍽",
+          "type": "string",
+          "maxLength": 1,
+          "minLength": 1
+        },
+        "newline": {
+          "default": "⏎",
+          "type": "string",
+          "maxLength": 1,
+          "minLength": 1
+        },
+        "space": {
+          "default": "·",
+          "type": "string",
+          "maxLength": 1,
+          "minLength": 1
+        },
+        "tab": {
+          "default": "→",
+          "type": "string",
+          "maxLength": 1,
+          "minLength": 1
+        },
+        "tabpad": {
+          "default": " ",
+          "type": "string",
+          "maxLength": 1,
+          "minLength": 1
+        }
+      }
+    },
+    "WhitespaceConfig": {
+      "type": "object",
+      "properties": {
+        "characters": {
+          "default": {
+            "nbsp": "⍽",
+            "newline": "⏎",
+            "space": "·",
+            "tab": "→",
+            "tabpad": " "
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/WhitespaceCharacters"
+            }
+          ]
+        },
+        "render": {
+          "default": "none",
+          "allOf": [
+            {
+              "$ref": "#/definitions/WhitespaceRender"
+            }
+          ]
+        }
+      }
+    },
+    "WhitespaceRender": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/WhitespaceRenderValue"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "default": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/WhitespaceRenderValue"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "nbsp": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/WhitespaceRenderValue"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "newline": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/WhitespaceRenderValue"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "space": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/WhitespaceRenderValue"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "tab": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/WhitespaceRenderValue"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "WhitespaceRenderValue": {
+      "type": "string",
+      "enum": [
+        "none",
+        "all"
+      ]
+    }
+  }
+}

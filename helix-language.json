@@ -1,0 +1,554 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Configuration",
+  "type": "object",
+  "required": [
+    "language"
+  ],
+  "properties": {
+    "language": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/LanguageConfiguration"
+      }
+    },
+    "language-server": {
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/LanguageServerConfiguration"
+      }
+    }
+  },
+  "definitions": {
+    "AdvancedCompletion": {
+      "type": "object",
+      "properties": {
+        "completion": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "default": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "AutoPairs": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "maxLength": 1,
+        "minLength": 1
+      }
+    },
+    "DebugAdapterConfig": {
+      "type": "object",
+      "required": [
+        "name",
+        "templates",
+        "transport"
+      ],
+      "properties": {
+        "args": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "command": {
+          "default": "",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "port-arg": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "quirks": {
+          "default": {
+            "absolute_paths": false
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/DebuggerQuirks"
+            }
+          ]
+        },
+        "templates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DebugTemplate"
+          }
+        },
+        "transport": {
+          "type": "string"
+        }
+      }
+    },
+    "DebugArgumentValue": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "type": "boolean"
+        }
+      ]
+    },
+    "DebugConfigCompletion": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/definitions/AdvancedCompletion"
+        }
+      ]
+    },
+    "DebugTemplate": {
+      "type": "object",
+      "required": [
+        "args",
+        "completion",
+        "name",
+        "request"
+      ],
+      "properties": {
+        "args": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/DebugArgumentValue"
+          }
+        },
+        "completion": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DebugConfigCompletion"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "request": {
+          "type": "string"
+        }
+      }
+    },
+    "DebuggerQuirks": {
+      "type": "object",
+      "properties": {
+        "absolute_paths": {
+          "default": false,
+          "type": "boolean"
+        }
+      }
+    },
+    "FileType": {
+      "oneOf": [
+        {
+          "description": "The extension of the file, either the `Path::extension` or the full filename if the file does not have an extension.",
+          "type": "object",
+          "required": [
+            "Extension"
+          ],
+          "properties": {
+            "Extension": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "description": "The suffix of a file. This is compared to a given file's absolute path, so it can be used to detect files based on their directories.",
+          "type": "object",
+          "required": [
+            "Suffix"
+          ],
+          "properties": {
+            "Suffix": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "FormatterConfiguration": {
+      "type": "object",
+      "required": [
+        "command"
+      ],
+      "properties": {
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "command": {
+          "type": "string"
+        }
+      }
+    },
+    "IndentationConfiguration": {
+      "type": "object",
+      "required": [
+        "tab-width",
+        "unit"
+      ],
+      "properties": {
+        "tab-width": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0.0
+        },
+        "unit": {
+          "type": "string"
+        }
+      }
+    },
+    "LanguageConfiguration": {
+      "type": "object",
+      "required": [
+        "file-types",
+        "name",
+        "roots",
+        "scope"
+      ],
+      "properties": {
+        "auto-format": {
+          "default": false,
+          "type": "boolean"
+        },
+        "auto-pairs": {
+          "description": "Automatic insertion of pairs to parentheses, brackets, etc. Defaults to true. Optionally, this can be a list of 2-tuples to specify a list of characters to pair. This overrides the global setting.",
+          "writeOnly": true,
+          "anyOf": [
+            {
+              "$ref": "#/definitions/AutoPairs"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "comment-token": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "debugger": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/DebugAdapterConfig"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "diagnostic-severity": {
+          "default": "Hint",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Severity"
+            }
+          ]
+        },
+        "file-types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FileType"
+          }
+        },
+        "formatter": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/FormatterConfiguration"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "grammar": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "indent": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IndentationConfiguration"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "injection-regex": {
+          "writeOnly": true,
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Regex"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "language-id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "language-servers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LanguageServerFeatures"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "roots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rulers": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "integer",
+            "format": "uint16",
+            "minimum": 0.0
+          }
+        },
+        "scope": {
+          "type": "string"
+        },
+        "shebangs": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "soft-wrap": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SoftWrap"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text-width": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "minimum": 0.0
+        },
+        "workspace-lsp-roots": {
+          "description": "Hardcoded LSP root directories relative to the workspace root, like `examples` or `tools/fuzz`. Falling back to the current working directory if none are configured.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "LanguageServerConfiguration": {
+      "type": "object",
+      "required": [
+        "command"
+      ],
+      "properties": {
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "command": {
+          "type": "string"
+        },
+        "config": {
+          "writeOnly": true
+        },
+        "environment": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "timeout": {
+          "default": 20,
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        }
+      }
+    },
+    "LanguageServerFeature": {
+      "type": "string",
+      "enum": [
+        "format",
+        "goto-declaration",
+        "goto-definition",
+        "goto-type-definition",
+        "goto-reference",
+        "goto-implementation",
+        "signature-help",
+        "hover",
+        "document-highlight",
+        "completion",
+        "code-action",
+        "workspace-command",
+        "document-symbols",
+        "workspace-symbols",
+        "diagnostics",
+        "rename-symbol",
+        "inlay-hints"
+      ]
+    },
+    "LanguageServerFeatureConfiguration": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "except-features": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/LanguageServerFeature"
+              },
+              "uniqueItems": true
+            },
+            "name": {
+              "type": "string"
+            },
+            "only-features": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/LanguageServerFeature"
+              },
+              "uniqueItems": true
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "LanguageServerFeatures": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/LanguageServerFeatureConfiguration"
+      }
+    },
+    "Regex": {
+      "type": "string"
+    },
+    "Severity": {
+      "description": "Describes the severity level of a [`Diagnostic`].",
+      "type": "string",
+      "enum": [
+        "Hint",
+        "Info",
+        "Warning",
+        "Error"
+      ]
+    },
+    "SoftWrap": {
+      "type": "object",
+      "properties": {
+        "enable": {
+          "description": "Soft wrap lines that exceed viewport width. Default to off",
+          "default": null,
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "max-indent-retain": {
+          "description": "Maximum number of indentation that can be carried over from the previous line when softwrapping. If a line is indented further then this limit it is rendered at the start of the viewport instead.\n\nThis is automatically hard-limited to a quarter of the viewport to ensure correct display on small views.\n\nDefault to 40",
+          "default": null,
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "max-wrap": {
+          "description": "Maximum space left free at the end of the line. This space is used to wrap text at word boundaries. If that is not possible within this limit the word is simply split at the end of the line.\n\nThis is automatically hard-limited to a quarter of the viewport to ensure correct display on small views.\n\nDefault to 20",
+          "default": null,
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "wrap-at-text-width": {
+          "description": "Softwrap at `text_width` instead of viewport width if it is shorter",
+          "default": null,
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "wrap-indicator": {
+          "description": "Indicator placed at the beginning of softwrapped lines\n\nDefaults to ↪",
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

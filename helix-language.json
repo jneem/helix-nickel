@@ -166,32 +166,12 @@
       }
     },
     "FileType": {
-      "oneOf": [
+      "anyOf": [
         {
-          "description": "The extension of the file, either the `Path::extension` or the full filename if the file does not have an extension.",
-          "type": "object",
-          "required": [
-            "Extension"
-          ],
-          "properties": {
-            "Extension": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false
+          "type": "string"
         },
         {
-          "description": "The suffix of a file. This is compared to a given file's absolute path, so it can be used to detect files based on their directories.",
-          "type": "object",
-          "required": [
-            "Suffix"
-          ],
-          "properties": {
-            "Suffix": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/definitions/Suffix"
         }
       ]
     },
@@ -549,6 +529,17 @@
         }
       },
       "additionalProperties": false
+    },
+    "Suffix": {
+      "type": "object",
+      "required": [
+        "suffix"
+      ],
+      "properties": {
+        "suffix": {
+          "type": "string"
+        }
+      }
     }
   }
 }
